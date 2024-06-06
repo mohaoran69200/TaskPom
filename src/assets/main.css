@@ -1,0 +1,29 @@
+@import './base.css';
+
+@font-face {
+  font-family: all;
+  src: url(assets/font/Poppins-Regular.ttf);
+}
+
+@font-face {
+  font-family: title;
+  src: url(assets/font/Poppins-Bold.ttf);
+}
+
+h1 {
+  font-family: title;
+}
+
+h2,
+p,
+button {
+  font-family: all;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: rgb(5, 6, 45);
+}
+
