@@ -1,21 +1,29 @@
 <script setup>
-import { ref } from 'vue';
-// import { useRoute } from 'vue-router';
-// const route = useRoute();
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+import { useTasks } from '../store';
 
-// Récupérer la tâche spécifique à afficher à partir de la route ou d'une API
-const task = ref(/* récupérer la tâche spécifique à afficher à partir de la route ou d'une API */);
+const { tasks } = useTasks();
+const route = useRoute();
+const taskId = computed(() => parseInt(route.params.id, 10));
+
+const task = computed(() => tasks.value.find(t => t.id === taskId.value));
 </script>
 
 <template>
-    <div>
-        <!-- Affichage des détails de la tâche -->
-        <h2>Détails de la tâche</h2>
-        <div>
-            <p><strong>Titre:</strong> {{ task.title }}</p>
-            <p><strong>Description:</strong> {{ task.description }}</p>
-            <p><strong>Statut:</strong> {{ task.status }}</p>
-            <p><strong>Date:</strong> {{ task.dueDate }}</p>
-        </div>
-    </div>
+  <div v-if="task">
+    <h2>Détails de la Tâche</h2>
+    <p><strong>ID:</strong> {{ task.value.id }}</p>
+    <p><strong>Titre:</strong> {{ task.value.title }}</p>
+    <p><strong>Description:</strong> {{ task.value.description }}</p>
+    <p><strong>Statut:</strong> {{ task.value.status }}</p>
+    <p><strong>Date:</strong> {{ task.value.dueDate }}</p>
+  </div>
+  <div v-else>
+    <p>Tâche non trouvée</p>
+  </div>
 </template>
+
+<style scoped>
+/* Ajoutez vos styles ici */
+</style>

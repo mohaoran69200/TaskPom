@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
-const emit = defineEmits(['add-task']);
+import { useTasks } from '../store';
+
+const { addTask } = useTasks();
 
 const newTask = ref({
     title: '',
@@ -9,8 +11,8 @@ const newTask = ref({
     dueDate: ''
 });
 
-const addTask = () => {
-    emit('add-task', { ...newTask.value });
+const addNewTask = () => {
+    addTask({ ...newTask.value });
     newTask.value = {
         title: '',
         description: '',
@@ -21,17 +23,18 @@ const addTask = () => {
 </script>
 
 <template>
-    <h2>To-Do List</h2>
-    <!-- Formulaire pour ajouter une nouvelle tâche -->
-    <form @submit.prevent="addTask">
-        <label for="task-title">Titre</label>
-        <input v-model="newTask.title" type="text" id="task-title" required>
-        <label for="task-description">Description</label>
-        <textarea v-model="newTask.description" id="task-description" required></textarea>
-        <label for="task-due-date">Date</label>
-        <input v-model="newTask.dueDate" type="date" id="task-due-date" required>
-        <button type="submit">Ajouter</button>
-    </form>
+    <div>
+        <h2>Ajouter une Tâche</h2>
+        <form @submit.prevent="addNewTask">
+            <label for="task-title">Titre</label>
+            <input v-model="newTask.title" type="text" id="task-title" required>
+            <label for="task-description">Description</label>
+            <textarea v-model="newTask.description" id="task-description" required></textarea>
+            <label for="task-due-date">Date</label>
+            <input v-model="newTask.dueDate" type="date" id="task-due-date" required>
+            <button type="submit">Ajouter</button>
+        </form>
+    </div>
 </template>
 
 <style scoped></style>

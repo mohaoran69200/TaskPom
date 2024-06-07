@@ -1,20 +1,16 @@
 <script setup>
 import taskItem from '../components/taskItem.vue';
+import { useTasks } from '../store';
 import { ref } from 'vue';
 
-const props = defineProps(['tasks']);
-const localTasks = ref(props.tasks);
-const editingIndex = ref(-1);
-const editingTask = ref({
-    title: '',
-    description: '',
-    dueDate: ''
-});
+const { tasks } = useTasks();
+
+const editingTask = ref(null);
 
 const completeTask = (index) => {
-    localTasks.value[index].status = 'terminée';
-    if (index < localTasks.value.length - 1) {
-        const nextTask = localTasks.value[index + 1];
+    tasks.value[index].status = 'terminée';
+    if (index < tasks.value.length - 1) {
+        const nextTask = tasks.value[index + 1];
         if (nextTask.status === 'en attente') {
             nextTask.status = 'en cours';
         }
@@ -22,65 +18,47 @@ const completeTask = (index) => {
 };
 
 const deleteTask = (index) => {
-    localTasks.value.splice(index, 1);
+    tasks.value.splice(index, 1);
 };
 
-const editTask = (index) => {
-    editingIndex.value = index;
-    editingTask.value = { ...localTasks.value[index] };
+const editTask = (task) => {
+    editingTask.value = { ...task };
 };
 
 const updateTask = () => {
-    if (editingIndex.value !== -1) {
-        Object.assign(localTasks.value[editingIndex.value], editingTask.value);
-        editingIndex.value = -1;
+    const taskIndex = tasks.value.findIndex(task => task.id === editingTask.value.id);
+    if (taskIndex !== -1) {
+        tasks.value[taskIndex] = { ...editingTask.value };
+        editingTask.value = null;
     }
 };
 
-const viewTask = (index) => {
-    const task = localTasks.value[index];
-    alert(`Détails de la tâche:\nTitre: ${task.title}\nDescription: ${task.description}\nStatut: ${task.status}\nDate: ${task.dueDate}`);
+const cancelEdit = () => {
+    editingTask.value = null;
 };
+
 </script>
 
 <template>
     <div>
         <h2>Liste des Tâches</h2>
-        
-        <!-- Boutons pour filtrer les tâches -->
-        <div>
-            <button @click="filterTasks(null)">Toutes</button>
-            <button @click="filterTasks('en cours')">En Cours</button>
-            <button @click="filterTasks('en attente')">En Attente</button>
-        </div>
-
-        <!-- Tableau des tâches -->
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Titre</th>
-                    <th>Description</th>
                     <th>Statut</th>
                     <th>Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <taskItem
-                    v-for="(task, index) in localTasks"
-                    :key="index"
-                    :task="task"
-                    :index="index"
-                    @complete="completeTask"
-                    @delete="deleteTask"
-                    @edit="editTask"
-                    @view="viewTask"
-                />
+                <taskItem v-for="(task, index) in tasks" :key="task.id" :task="task" :index="index" @complete="completeTask"
+                    @delete="deleteTask" @edit="editTask(task)" />
             </tbody>
         </table>
 
-        <!-- Formulaire pour modifier une tâche -->
-        <div v-if="editingIndex !== -1" class="edit-form">
+        <div v-if="editingTask" class="edit-form">
             <h3>Modifier la tâche</h3>
             <form @submit.prevent="updateTask">
                 <label for="edit-title">Titre</label>
@@ -90,7 +68,7 @@ const viewTask = (index) => {
                 <label for="edit-due-date">Date</label>
                 <input v-model="editingTask.dueDate" type="date" id="edit-due-date" required>
                 <button type="submit">Enregistrer</button>
-                <button type="button" @click="editingIndex = -1">Annuler</button>
+                <button type="button" @click="cancelEdit">Annuler</button>
             </form>
         </div>
     </div>
