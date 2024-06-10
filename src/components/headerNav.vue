@@ -6,9 +6,9 @@ import { RouterLink } from 'vue-router';
     <header>
         <nav>
             <div class="container-nav">
-                <RouterLink to="/">TaskPom</RouterLink> 
-                <RouterLink to="/task">Liste</RouterLink>
-                <RouterLink to="/task/new">Ajouter</RouterLink> 
+                <RouterLink to="/" class="site-title">TaskPom</RouterLink> 
+                <RouterLink to="/task" class="liste-section">Liste</RouterLink>
+                <RouterLink to="/task/new" class="add-section">Ajouter</RouterLink> 
             </div>
         </nav>
     </header>
@@ -20,17 +20,19 @@ import { RouterLink } from 'vue-router';
     align-items: center;
     justify-content: space-between;
 }
-.title {
+.site-title {
     color: aliceblue;
+    font-size: 24px;
     margin-left: 150px;
-    margin-top: 40px;
+    margin-top: 20px;
     font-family: 'Poppins-Bold', sans-serif;
+    text-decoration: none;
 }
 
 .title:hover {
     cursor: pointer;
 }
-.liste-btn {
+.liste-section {
     background-color: rgb(5, 6, 45);
     color: azure;
     border-radius: 6px;
@@ -39,17 +41,18 @@ import { RouterLink } from 'vue-router';
     font-family: 'Poppins-Bold', sans-serif;
     font-size: 14px;
     padding: 6px 16px;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-right: 150px;
     border: none;
+    text-decoration: none;
 }
-.liste-btn:hover {
+.liste-section:hover {
     color: #F8706E;
     box-shadow: #F8706E 0 1px 0, #F8706E 0 1px 0 inset;
     transition-duration: 0.1s;
 }
 
-.add-btn {
+.add-section {
     background-color: rgb(5, 6, 45);
     color: azure;
     border-radius: 6px;
@@ -58,11 +61,13 @@ import { RouterLink } from 'vue-router';
     font-family: 'Poppins-Bold', sans-serif;
     font-size: 14px;
     padding: 6px 16px;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-right: 150px;
     border: none;
+    text-decoration: none;
+
 }
-.add-btn:hover {
+.add-section:hover {
     color: #F8706E;
     box-shadow: #F8706E 0 1px 0, #F8706E 0 1px 0 inset;
     transition-duration: 0.1s;

@@ -43,7 +43,7 @@ const cancelEdit = () => {
     <div>
         <h2>Liste des Tâches</h2>
         <table>
-            <thead>
+            <!-- <thead>
                 <tr>
                     <th>ID</th>
                     <th>Titre</th>
@@ -51,7 +51,7 @@ const cancelEdit = () => {
                     <th>Date</th>
                     <th>Actions</th>
                 </tr>
-            </thead>
+            </thead> -->
             <tbody>
                 <taskItem v-for="(task, index) in tasks" :key="task.id" :task="task" :index="index" @complete="completeTask"
                     @delete="deleteTask" @edit="editTask(task)" />
@@ -75,7 +75,7 @@ const cancelEdit = () => {
 </template>
 
 <style scoped>
-/* Add your styles here */
+/* Existing styles */
 .edit-form {
     background-color: #fff;
     padding: 15px;
@@ -84,49 +84,61 @@ const cancelEdit = () => {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.edit-form h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
+.task-form .form-group {
+    margin-bottom: 20px;
 }
 
-.edit-form label {
+.task-form label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
-.edit-form input[type="text"],
-.edit-form textarea,
-.edit-form input[type="date"] {
+.task-form input[type="text"],
+.task-form textarea,
+.task-form input[type="date"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
 }
 
-.edit-form button[type="submit"],
-.edit-form button[type="button"] {
-    background-color: #5B42F3;
-    color: white;
-    border: none;
+.task-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.task-form .btn-submit {
+    display: inline-block;
     padding: 10px 20px;
+    color: #fff;
+    background-color: #5B42F3;
+    border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
-.edit-form button[type="button"] {
-    background-color: #ccc;
-    margin-left: 10px;
-}
-
-.edit-form button[type="submit"]:hover {
+.task-form .btn-submit:hover {
     background-color: #4a35cc;
 }
 
-.edit-form button[type="button"]:hover {
+.task-form .btn-cancel {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #000;
+    background-color: #ccc;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+.task-form .btn-cancel:hover {
     background-color: #b3b3b3;
 }
 </style>

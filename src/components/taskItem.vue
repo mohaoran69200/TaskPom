@@ -7,7 +7,7 @@ const props = defineProps({
     index: Number
 });
 
-const emit = defineEmits(['complete', 'delete', 'edit', 'view']);
+const emit = defineEmits(['complete', 'delete', 'edit']);
 </script>
 
 <template>

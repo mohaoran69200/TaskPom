@@ -17,8 +17,8 @@ const addTask = (task) => {
 
 <template>
     <div class="container-todo">
-      <formSection @add-task="addTask" />
-      <taskSection :tasks="tasks" />
+        <formSection @add-task="addTask" />
+        <taskSection :tasks="tasks" />
     </div>
 </template>
 
