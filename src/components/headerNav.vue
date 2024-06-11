@@ -6,9 +6,9 @@ import { RouterLink } from 'vue-router';
     <header>
         <nav>
             <div class="container-nav">
-                <RouterLink to="/" class="site-title">TaskPom</RouterLink> 
-                <RouterLink to="/task" class="liste-section">Liste</RouterLink>
-                <RouterLink to="/task/new" class="add-section">Ajouter</RouterLink> 
+                <RouterLink to="/" class="site-title">TaskPom</RouterLink>
+                <RouterLink to="/tasks" class="tasks-section">Tâches</RouterLink>
+                <RouterLink to="/users" class="add-section">Utilisateurs</RouterLink>
             </div>
         </nav>
     </header>
@@ -16,10 +16,11 @@ import { RouterLink } from 'vue-router';
 
 <style scoped>
 .container-nav {
-    display: flex;    
+    display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .site-title {
     color: aliceblue;
     font-size: 24px;
@@ -29,29 +30,7 @@ import { RouterLink } from 'vue-router';
     text-decoration: none;
 }
 
-.title:hover {
-    cursor: pointer;
-}
-.liste-section {
-    background-color: rgb(5, 6, 45);
-    color: azure;
-    border-radius: 6px;
-    box-shadow: azure 0 1px 0, azure 0 1px 0 inset;
-    cursor: pointer;
-    font-family: 'Poppins-Bold', sans-serif;
-    font-size: 14px;
-    padding: 6px 16px;
-    margin-top: 20px;
-    margin-right: 150px;
-    border: none;
-    text-decoration: none;
-}
-.liste-section:hover {
-    color: #F8706E;
-    box-shadow: #F8706E 0 1px 0, #F8706E 0 1px 0 inset;
-    transition-duration: 0.1s;
-}
-
+.tasks-section,
 .add-section {
     background-color: rgb(5, 6, 45);
     color: azure;
@@ -62,16 +41,13 @@ import { RouterLink } from 'vue-router';
     font-size: 14px;
     padding: 6px 16px;
     margin-top: 20px;
-    margin-right: 150px;
     border: none;
     text-decoration: none;
-
 }
+
+.tasks-section:hover,
 .add-section:hover {
     color: #F8706E;
     box-shadow: #F8706E 0 1px 0, #F8706E 0 1px 0 inset;
     transition-duration: 0.1s;
-}
-
-
-</style>
+}</style>

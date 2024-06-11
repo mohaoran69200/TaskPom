@@ -32,9 +32,22 @@ export function useTasks() {
         return tasks.value.find(task => task.id === parseInt(id));
     };
 
+    const updateTask = (updatedTask) => {
+        const index = tasks.value.findIndex(task => task.id === updatedTask.id);
+        if (index !== -1) {
+            tasks.value[index] = updatedTask;
+        }
+    };
+
+    const deleteTask = (id) => {
+        tasks.value = tasks.value.filter(task => task.id !== id);
+    };
+
     return {
         tasks,
         addTask,
-        getTaskById
+        getTaskById,
+        updateTask,
+        deleteTask
     };
 }

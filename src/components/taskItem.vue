@@ -2,11 +2,19 @@
 import { defineProps, defineEmits } from 'vue';
 import { RouterLink } from 'vue-router';
 
+// Définition des propriétés reçues par le composant
 const props = defineProps({
-    task: Object,
-    index: Number
+    task: {
+        type: Object,
+        required: true
+    },
+    index: {
+        type: Number,
+        required: true
+    }
 });
 
+// Définition des événements émis par le composant
 const emit = defineEmits(['complete', 'delete', 'edit']);
 </script>
 
@@ -18,12 +26,16 @@ const emit = defineEmits(['complete', 'delete', 'edit']);
         <td>{{ props.task.status }}</td>
         <td>{{ props.task.dueDate }}</td>
         <td>
-            <button @click="emit('complete', props.index)">Terminer</button>
-            <button @click="emit('delete', props.index)">Supprimer</button>
-            <button @click="emit('edit', props.task)">Modifier</button>
-            <RouterLink :to="{ name: 'ShowTask', params: { id: props.task.id } }">Voir</RouterLink>
+            <button @click="emit('complete', task.id)">Terminer</button>
+            <button @click="emit('delete', task.id)">Supprimer</button>
+            <button @click="emit('edit', task)">Modifier</button>
+            <RouterLink :to="{ name: 'ShowTask', params: { id: task.id } }">Voir</RouterLink>
         </td>
     </tr>
 </template>
 
-<style scoped></style>
+<style scoped>
+button {
+    margin-right: 10px;
+}
+</style>

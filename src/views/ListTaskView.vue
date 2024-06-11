@@ -1,34 +1,19 @@
 <script setup>
-import taskItem from '../components/taskItem.vue';
-import { useTasks } from '../store';
 import { ref } from 'vue';
+import taskItem from '../components/taskItem.vue';
+import { useTasksStore } from '../stores/tasks';
 
-const { tasks } = useTasks();
+const store = useTasksStore();
 
 const editingTask = ref(null);
-
-const completeTask = (index) => {
-    tasks.value[index].status = 'terminée';
-    if (index < tasks.value.length - 1) {
-        const nextTask = tasks.value[index + 1];
-        if (nextTask.status === 'en attente') {
-            nextTask.status = 'en cours';
-        }
-    }
-};
-
-const deleteTask = (index) => {
-    tasks.value.splice(index, 1);
-};
 
 const editTask = (task) => {
     editingTask.value = { ...task };
 };
 
-const updateTask = () => {
-    const taskIndex = tasks.value.findIndex(task => task.id === editingTask.value.id);
-    if (taskIndex !== -1) {
-        tasks.value[taskIndex] = { ...editingTask.value };
+const submitUpdate = () => {
+    if (editingTask.value) {
+        store.updateTask(editingTask.value);
         editingTask.value = null;
     }
 };
@@ -37,45 +22,59 @@ const cancelEdit = () => {
     editingTask.value = null;
 };
 
+const deleteTask = (taskId) => {
+    store.deleteTask(taskId);
+};
 </script>
 
 <template>
     <div>
         <h2>Liste des Tâches</h2>
         <table>
-            <!-- <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Titre</th>
-                    <th>Statut</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead> -->
             <tbody>
-                <taskItem v-for="(task, index) in tasks" :key="task.id" :task="task" :index="index" @complete="completeTask"
-                    @delete="deleteTask" @edit="editTask(task)" />
+                <taskItem v-for="(task, index) in store.tasks" :key="task.id" :task="task" :index="index" @edit="editTask"
+                    @delete="deleteTask" />
             </tbody>
         </table>
 
         <div v-if="editingTask" class="edit-form">
             <h3>Modifier la tâche</h3>
-            <form @submit.prevent="updateTask">
-                <label for="edit-title">Titre</label>
-                <input v-model="editingTask.title" type="text" id="edit-title" required>
-                <label for="edit-description">Description</label>
-                <textarea v-model="editingTask.description" id="edit-description" required></textarea>
-                <label for="edit-due-date">Date</label>
-                <input v-model="editingTask.dueDate" type="date" id="edit-due-date" required>
-                <button type="submit">Enregistrer</button>
-                <button type="button" @click="cancelEdit">Annuler</button>
+            <form @submit.prevent="submitUpdate" class="task-form">
+                <div class="form-group">
+                    <label for="edit-title">Titre</label>
+                    <input v-model="editingTask.title" type="text" id="edit-title" required />
+                </div>
+                <div class="form-group">
+                    <label for="edit-description">Description</label>
+                    <textarea v-model="editingTask.description" id="edit-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="edit-status">Statut</label>
+                    <select v-model="editingTask.status" id="edit-status" required>
+                        <option value="en attente">En attente</option>
+                        <option value="en cours">En cours</option>
+                        <option value="terminée">Terminée</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-due-date">Date d'échéance</label>
+                    <input v-model="editingTask.dueDate" type="date" id="edit-due-date" required />
+                </div>
+                <button type="submit" class="btn-submit">Enregistrer</button>
+                <button type="button" class="btn-cancel" @click="cancelEdit">Annuler</button>
             </form>
         </div>
     </div>
 </template>
 
 <style scoped>
-/* Existing styles */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: azure;
+    font-family: 'Poppins-Bold', sans-serif;
+}
+
 .edit-form {
     background-color: #fff;
     padding: 15px;
@@ -96,6 +95,7 @@ const cancelEdit = () => {
 
 .task-form input[type="text"],
 .task-form textarea,
+.task-form select,
 .task-form input[type="date"] {
     width: 100%;
     padding: 10px;

@@ -1,9 +1,12 @@
 <script setup>
-import taskItem from './taskItem.vue';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import TaskItem from './taskItem.vue';
+import { useTasksStore } from '../stores/tasks';
 
-const props = defineProps(['tasks']);
-const localTasks = ref(props.tasks);
+const store = useTasksStore();
+const router = useRouter();
+
 const editingIndex = ref(-1);
 const editingTask = ref({
     title: '',
@@ -12,51 +15,36 @@ const editingTask = ref({
 });
 
 const completeTask = (index) => {
-    localTasks.value[index].status = 'terminée';
-    if (index < localTasks.value.length - 1) {
-        const nextTask = localTasks.value[index + 1];
-        if (nextTask.status === 'en attente') {
-            nextTask.status = 'en cours';
-        }
-    }
+    store.completeTask(index);
 };
 
 const deleteTask = (index) => {
-    localTasks.value.splice(index, 1);
+    store.deleteTask(index);
 };
 
 const editTask = (index) => {
     editingIndex.value = index;
-    editingTask.value = { ...localTasks.value[index] };
+    editingTask.value = { ...store.tasks[index] };
 };
 
 const updateTask = () => {
     if (editingIndex.value !== -1) {
-        Object.assign(localTasks.value[editingIndex.value], editingTask.value);
+        store.updateTask({ index: editingIndex.value, task: editingTask.value });
         editingIndex.value = -1;
     }
 };
 
 const viewTask = (index) => {
-    const task = localTasks.value[index];
-    alert(`Détails de la tâche:\nTitre: ${task.title}\nDescription: ${task.description}\nStatut: ${task.status}\nDate: ${task.dueDate}`);
+    const task = store.tasks[index];
+    router.push({ name: 'ShowTask', params: { id: task.id } });
 };
 </script>
 
 <template>
     <div>
         <table>
-            <!-- <thead>
-                <tr>
-                    <th>Titre</th>
-                    <th>Description</th>
-                    <th>Statut</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead> -->
             <tbody>
-                <taskItem v-for="(task, index) in localTasks" :key="index" :task="task" :index="index"
+                <TaskItem v-for="(task, index) in store.tasks" :key="index" :task="task" :index="index"
                     @complete="completeTask" @delete="deleteTask" @edit="editTask" @view="viewTask" />
             </tbody>
         </table>

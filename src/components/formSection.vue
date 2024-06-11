@@ -1,39 +1,60 @@
 <script setup>
-import { ref } from 'vue';
-const emit = defineEmits(['add-task']);
+import { ref, defineEmits } from 'vue'
+import { useRouter } from 'vue-router'
+
+const emit = defineEmits(['add-task'])
+const router = useRouter()
 
 const newTask = ref({
     title: '',
     description: '',
     status: 'en attente',
     dueDate: ''
-});
+})
 
 const addTask = () => {
-    emit('add-task', { ...newTask.value });
+    emit('add-task', { ...newTask.value })
     newTask.value = {
         title: '',
         description: '',
         status: 'en attente',
         dueDate: ''
-    };
-};
+    }
+}
+
+const submitTask = () => {
+    addTask()
+    router.push('/')
+}
 </script>
 
 <template>
     <h2>To-Do List</h2>
-    <!-- Formulaire pour ajouter une nouvelle tâche -->
-    <form @submit.prevent="addTask">
-        <label for="task-title">Titre</label>
-        <input v-model="newTask.title" type="text" id="task-title" required>
-        <label for="task-description">Description</label>
-        <textarea v-model="newTask.description" id="task-description" required></textarea>
-        <label for="task-due-date">Date</label>
-        <input v-model="newTask.dueDate" type="date" id="task-due-date" required>
-        <button type="submit">Ajouter</button>
-    </form>
+    <div class="form-container">
+        <form @submit.prevent="submitTask" class="task-form">
+            <div class="form-group">
+                <label for="title">Titre</label>
+                <input v-model="newTask.title" type="text" id="title" required />
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea v-model="newTask.description" id="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="status">Statut</label>
+                <select v-model="newTask.status" id="status" required>
+                    <option value="en attente">En attente</option>
+                    <option value="en cours">En cours</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dueDate">Date d'échéance</label>
+                <input v-model="newTask.dueDate" type="date" id="dueDate" required />
+            </div>
+            <button type="submit" class="btn-submit">Ajouter</button>
+        </form>
+    </div>
 </template>
-
 
 <style scoped>
 /* Styles du formulaire */
@@ -44,7 +65,7 @@ h2 {
     font-family: 'Poppins-Bold', sans-serif;
 }
 
-form {
+.form-container {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
@@ -53,16 +74,21 @@ form {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-label {
+.task-form .form-group {
+    margin-bottom: 20px;
+}
+
+.task-form label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
     color: azure;
 }
 
-input[type="text"],
-textarea,
-input[type="date"] {
+.task-form input[type='text'],
+.task-form textarea,
+.task-form select,
+.task-form input[type='date'] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -71,28 +97,26 @@ input[type="date"] {
     margin-bottom: 15px;
 }
 
-textarea {
+.task-form textarea {
     resize: vertical;
     min-height: 100px;
 }
 
-button[type="submit"] {
+.task-form .btn-submit {
     display: block;
     width: 100%;
     padding: 10px 0;
     color: #fff;
-    background-color: #5B42F3;
+    background-color: #5b42f3;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
-    font-family: 'poppins-bold', sans-serif;
+    font-family: 'Poppins-Bold', sans-serif;
 }
 
-button[type="submit"]:hover {
-    background-color:  #cc5856;
+.task-form .btn-submit:hover {
+    background-color: #cc5856;
 }
 </style>
-
-
