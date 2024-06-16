@@ -16,7 +16,7 @@ const routes = [
   },
   {
     path: '/tasks',
-    component: TaskManagerView, // Wrapper for nested routes
+    component: TaskManagerView, 
     children: [
       {
         path: 'task',
