@@ -22,6 +22,14 @@ const cancelEdit = () => {
     editingTask.value = null;
 };
 
+const completeTask = (id) => {
+    const task = store.tasks.find(t => t.id === id);
+    if (task) {
+        task.status = 'terminée';
+        store.updateTask(task);
+    }
+};
+
 const deleteTask = (taskId) => {
     store.deleteTask(taskId);
 };
@@ -32,8 +40,14 @@ const deleteTask = (taskId) => {
         <h2>Liste des Tâches</h2>
         <table>
             <tbody>
-                <taskItem v-for="(task, index) in store.tasks" :key="task.id" :task="task" :index="index" @edit="editTask"
-                    @delete="deleteTask" />
+                <taskItem 
+                    v-for="task in store.tasks" 
+                    :key="task.id" 
+                    :task="task" 
+                    @edit="editTask"
+                    @complete="completeTask" 
+                    @delete="deleteTask" 
+                />
             </tbody>
         </table>
 
@@ -42,7 +56,7 @@ const deleteTask = (taskId) => {
             <form @submit.prevent="submitUpdate" class="task-form">
                 <div class="form-group">
                     <label for="edit-title">Titre</label>
-                    <input v-model="editingTask.title" type="text" id="edit-title" required />
+                    <input v-model="editingTask.title" type="text" id="edit-title" required>
                 </div>
                 <div class="form-group">
                     <label for="edit-description">Description</label>
@@ -58,7 +72,7 @@ const deleteTask = (taskId) => {
                 </div>
                 <div class="form-group">
                     <label for="edit-due-date">Date d'échéance</label>
-                    <input v-model="editingTask.dueDate" type="date" id="edit-due-date" required />
+                    <input v-model="editingTask.dueDate" type="date" id="edit-due-date" required>
                 </div>
                 <button type="submit" class="btn-submit">Enregistrer</button>
                 <button type="button" class="btn-cancel" @click="cancelEdit">Annuler</button>
@@ -66,7 +80,6 @@ const deleteTask = (taskId) => {
         </div>
     </div>
 </template>
-
 <style scoped>
 h2 {
     text-align: center;

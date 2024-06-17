@@ -4,7 +4,7 @@
     <div>
         <section class="tasks-section">
             <RouterLink to="/tasks/task">Liste</RouterLink>
-            <RouterLink to="/tasks/new">Utilisateurs</RouterLink>
+            <RouterLink to="/tasks/new">Ajouter</RouterLink>
         </section>
         <RouterView />
     </div>
