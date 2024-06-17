@@ -27,7 +27,6 @@ const toggleTaskSection = () => {
   flex-direction: column;
   align-items: center;
 }
-
 .tasks-section {
   display: flex;
 }
