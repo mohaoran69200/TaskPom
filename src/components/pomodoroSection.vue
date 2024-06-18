@@ -136,7 +136,8 @@ onBeforeUnmount(() => {
         <div id="pomodoro-timer"></div>
         <div id="pomodoro-clock-actions">
             <button @click="startTimer" :class="{ 'button-active': isClockRunning }" id="start-btn">Démarrer</button>
-            <button @click="pauseTimer" :class="{ 'button-active': !isClockRunning && timeSpentInCurrentSession.value > 0 }" id="pause-btn">Pause</button>
+            <button @click="pauseTimer" :class="{ 'button-active': !isClockRunning && timeSpentInCurrentSession.value > 0 }"
+                id="pause-btn">Pause</button>
             <button @click="stopTimer" id="stop-btn">Arrêter</button>
         </div>
     </div>
@@ -155,7 +156,7 @@ onBeforeUnmount(() => {
 }
 
 #select-button {
-    display: flex;  
+    display: flex;
     width: 50%;
     align-items: center;
     justify-content: center;
@@ -173,11 +174,11 @@ onBeforeUnmount(() => {
     margin: 30px;
 }
 
-#select-focus:hover{
+#select-focus:hover {
     cursor: pointer;
 }
 
-#select-break:hover{
+#select-break:hover {
     cursor: pointer;
 }
 

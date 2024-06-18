@@ -9,8 +9,8 @@ const route = useRoute()
 const task = ref(null)
 
 onMounted(async () => {
-    const taskId = route.params.id;
-    task.value = await store.getTaskById(taskId);
+  const taskId = route.params.id;
+  task.value = await store.getTaskById(taskId);
 });
 </script>
 

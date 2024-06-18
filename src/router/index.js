@@ -21,7 +21,7 @@ const routes = [
   },
   {
     path: '/tasks',
-    component: TaskManagerView, 
+    component: TaskManagerView,
     children: [
       {
         path: 'task',
