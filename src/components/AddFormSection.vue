@@ -48,8 +48,8 @@ const submitTask = async () => {
                 </select>
             </div>
             <div class="form-group">
-                <label for="due-date">Date d'échéance</label>
-                <input v-model="dueDate" type="date" id="due-date" required />
+                <label for="dueDate">Date d'échéance</label>
+                <input v-model="dueDate" type="date" id="dueDate" required />
             </div>
             <button type="submit" class="btn-submit">Ajouter</button>
         </form>
