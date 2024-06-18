@@ -1,55 +1,55 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useTasksStore } from '../stores/tasks'
 
-const emit = defineEmits(['add-task'])
 const router = useRouter()
+const store = useTasksStore()
+const title = ref('');
+const description = ref('');
+const status = ref('en attente');
+const dueDate = ref('');
 
-const newTask = ref({
-    title: '',
-    description: '',
-    status: 'en attente',
-    dueDate: ''
-})
+const submitTask = async () => {
+    const newTask = {
+        title: title.value,
+        description: description.value,
+        status: status.value,
+        dueDate: dueDate.value,
+    };
 
-const addTask = () => {
-    emit('add-task', { ...newTask.value })
-    newTask.value = {
-        title: '',
-        description: '',
-        status: 'en attente',
-        dueDate: ''
+    try {
+        await store.addTask(newTask);
+        router.push('/tasks/task');
+    } catch (error) {
+        console.error('Erreur lors de l\'ajout de la tâche :', error);
     }
-}
+};
 
-const submitTask = () => {
-    addTask()
-    router.push('/')
-}
 </script>
 
 <template>
-    <h2>To-Do List</h2>
     <div class="form-container">
         <form @submit.prevent="submitTask" class="task-form">
             <div class="form-group">
                 <label for="title">Titre</label>
-                <input v-model="newTask.title" type="text" id="title" required />
+                <input v-model="title" type="text" id="title" required />
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea v-model="newTask.description" id="description" required></textarea>
+                <textarea v-model="description" id="description" required></textarea>
             </div>
             <div class="form-group">
                 <label for="status">Statut</label>
-                <select v-model="newTask.status" id="status" required>
+                <select v-model="status" id="status" required>
                     <option value="en attente">En attente</option>
                     <option value="en cours">En cours</option>
+                    <option value="terminée">Terminée</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="dueDate">Date d'échéance</label>
-                <input v-model="newTask.dueDate" type="date" id="dueDate" required />
+                <label for="due-date">Date d'échéance</label>
+                <input v-model="dueDate" type="date" id="due-date" required />
             </div>
             <button type="submit" class="btn-submit">Ajouter</button>
         </form>
@@ -57,14 +57,6 @@ const submitTask = () => {
 </template>
 
 <style scoped>
-/* Styles du formulaire */
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: azure;
-    font-family: 'Poppins-Bold', sans-serif;
-}
-
 .form-container {
     max-width: 400px;
     margin: 0 auto;

@@ -14,8 +14,8 @@ const toggleTasks = () => {
         <nav>
             <div class="container-nav">
                 <RouterLink to="/" class="site-title">TaskPom</RouterLink>
-                <RouterLink @click.prevent="toggleTasks" to="/tasks" class="liste-section">Tâches</RouterLink>
-                <RouterLink to="/users" class="user-section">Utilisateurs</RouterLink>
+                <RouterLink @click.prevent="toggleTasks" to="/tasks" class="liste-section">Gestion des Tâches</RouterLink>
+                <RouterLink to="/users" class="user-section">Gestion des Utilisateurs</RouterLink>
             </div>
         </nav>
     </header>

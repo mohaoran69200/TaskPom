@@ -2,9 +2,9 @@
 
 <template>
     <div>
-        <section class="tasks-section">
-            <RouterLink to="/tasks/task">Liste des tâches</RouterLink>
-            <RouterLink to="/tasks/new">Ajouter une tâche</RouterLink>
+        <section class="users-section">
+            <RouterLink to="/users/user">Liste des utilisateurs</RouterLink>
+            <RouterLink to="/users/new">Ajouter un utilisateur</RouterLink>
         </section>
         <RouterView />
     </div>
@@ -17,7 +17,7 @@
     align-items: center;
 }
 
-.tasks-section {
+.users-section {
     display: flex;
 }
 </style>

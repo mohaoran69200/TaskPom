@@ -1,11 +1,11 @@
 <script setup>
-import AddFormSection from '@/components/AddFormSection.vue';
+import AddUserForm from '@/components/AddUserForm.vue';
 </script>
 
 <template>
     <div>
-        <h2>Ajouter une Tâche</h2>
-        <AddFormSection></AddFormSection>
+        <h2>Ajouter un utilisateur</h2>
+        <AddUserForm></AddUserForm>
     </div>
 </template>
 
